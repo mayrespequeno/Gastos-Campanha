@@ -14,7 +14,7 @@ cand1 <- subset(cand, select = c("SIGLA_UF","ANO_ELEICAO","NUMERO_CANDIDATO","NU
                                  "DESCRICAO_CARGO","COD_SIT_TOT_TURNO","DESC_SIT_TOT_TURNO","DESPESA_MAX_CAMPANHA"))
 
 
-"Nesse subset está ausente o municipio de candidatura, apenas está o municipio de nascimento"
+"Nesse subset estÃ¡ ausente o municipio de candidatura, apenas estÃ¡ o municipio de nascimento"
 
 #Removendo casos de vice prefeito
 cand2 <- with(cand1, which(CODIGO_CARGO == 12, arr.ind = TRUE))
@@ -46,7 +46,7 @@ ncol(vot3)
 desp <- personal_finances_local(2012)
 #ERROR
 
-#Recorremos então a base do TSE
+#Recorremos entÃ£o a base do TSE
 
 desp <- read.csv("C:/Users/mayre/Documents/Rscript/Gastos 2012/despesas_candidatos_2012_brasil.txt",
                  sep=";", dec = ',', quote="\"")
@@ -54,21 +54,21 @@ desp <- read.csv("C:/Users/mayre/Documents/Rscript/Gastos 2012/despesas_candidat
 
 colnames(despesas_cand)
 
-desp1 <- subset(desp, select = c("UF","Desc..Eleição","Número.candidato", "Sequencial.Candidato","CPF.do.candidato","Nome.candidato",
-                                 "Sigla..Partido","Município","Cargo","Valor.despesa","Tipo.despesa","Descriçao.da.despesa" ))
+desp1 <- subset(desp, select = c("UF","Desc..EleiÃ§Ã£o","NÃºmero.candidato", "Sequencial.Candidato","CPF.do.candidato","Nome.candidato",
+                                 "Sigla..Partido","MunicÃ­pio","Cargo","Valor.despesa","Tipo.despesa","DescriÃ§ao.da.despesa" ))
 
-#Criando variável numérica para excluir casos que não serão utilizados
+#Criando variÃ¡vel numÃ©rica para excluir casos que nÃ£o serÃ£o utilizados
 desp1$CODIGO_CARGO <- as.numeric(desp1$Cargo)
 
-#Recodoficamdo para criar variável Ano de Eleição
-desp1$ANO_ELEICAO <- ifelse(desp1$Desc..Eleição == "Eleição Municipal 2012", "2012", NA)
+#Recodoficamdo para criar variÃ¡vel Ano de EleiÃ§Ã£o
+desp1$ANO_ELEICAO <- ifelse(desp1$Desc..EleiÃ§Ã£o == "EleiÃ§Ã£o Municipal 2012", "2012", NA)
 
 #Removendo os casos de vereador
 desp2 <- with(desp1, which(CODIGO_CARGO == 2, arr.ind = TRUE))
 desp3 <- desp1[-desp2, ]
 
 desp3$CODIGO_CARGO <-NULL
-desp3$Desc..Eleição <-NULL
+desp3$Desc..EleiÃ§Ã£o <-NULL
 
 colnames(desp3)
 ncol(desp3)
@@ -76,7 +76,7 @@ ncol(desp3)
 names(desp3)[1:12] <- c("UF","NUMERO_CANDIDATO","SEQUENCIAL_CANDIDATO","CPF_CANDIDATO","NOME_CANDIDATO","SIGLA_PARTIDO",
                         "NOME_MUNICIPIO","DESCRICAO_CARGO","VALOR_DESPESA", "TIPO_DESPESA", "DESCRICAO_DESPESA", "ANO_ELEICAO")
 
-#O dataframe ainda possui candidatos repetidos, mesmo com o tipos de gastos iguais, sendo assim, vamos agregÃ¡-los.
+#O dataframe ainda possui candidatos repetidos, mesmo com o tipos de gastos iguais, sendo assim, vamos agregÃƒÂ¡-los.
 
 
 desp4 <- desp3%>% 
@@ -95,15 +95,15 @@ desp4 %>%
 #------------------despesas_transporte-----------------------------------
 
 desp4$despesast1 <- 
-  ifelse((desp4$TIPO_DESPESA == "Combustíveis e lubrificantes" & desp4$SUM_TIPO_DESPESA >= 0),desp4$SUM_TIPO_DESPESA,NA)
+  ifelse((desp4$TIPO_DESPESA == "CombustÃ­veis e lubrificantes" & desp4$SUM_TIPO_DESPESA >= 0),desp4$SUM_TIPO_DESPESA,NA)
 
-desp4$despesast2 <- ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Combustíveis e lubrificantes"
+desp4$despesast2 <- ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - CombustÃ­veis e lubrificantes"
                             & desp4$SUM_TIPO_DESPESA >= 0),desp4$SUM_TIPO_DESPESA, desp4$despesast1)
 
-desp4$despesast3 <- ifelse((desp4$TIPO_DESPESA == "Cessão ou locação de veículos"
+desp4$despesast3 <- ifelse((desp4$TIPO_DESPESA == "CessÃ£o ou locaÃ§Ã£o de veÃ­culos"
                             & desp4$SUM_TIPO_DESPESA >= 0),desp4$SUM_TIPO_DESPESA, desp4$despesast2)
 
-desp4$despesast4 <- ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Cessão ou locação de veículos"
+desp4$despesast4 <- ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - CessÃ£o ou locaÃ§Ã£o de veÃ­culos"
                             & desp4$SUM_TIPO_DESPESA >= 0),desp4$SUM_TIPO_DESPESA, desp4$despesast3)
 
 desp4$despesast5 <- ifelse((desp4$TIPO_DESPESA == "Despesas com transporte ou deslocamento"
@@ -122,23 +122,23 @@ desp4$publi1 <-
   ifelse((desp4$TIPO_DESPESA == "Publicidade por materiais impressos" & desp4$SUM_TIPO_DESPESA >= 0),desp4$SUM_TIPO_DESPESA,NA)
 
 desp4$publi2 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Publicidade por materiais impressos" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Publicidade por materiais impressos" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi1)
 
 desp4$publi3 <- 
-  ifelse((desp4$TIPO_DESPESA == "Produção de jingles, vinhetas e slogans" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "ProduÃ§Ã£o de jingles, vinhetas e slogans" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi2)
 
 desp4$publi4 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Produção de jingles, vinhetas e slogans" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - ProduÃ§Ã£o de jingles, vinhetas e slogans" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi3)
 
 desp4$publi5 <- 
-  ifelse((desp4$TIPO_DESPESA == "Atividades de militância e mobilização de rua" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Atividades de militÃ¢ncia e mobilizaÃ§Ã£o de rua" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi4)
 
 desp4$publi6 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Atividades de militância e mobilização de rua" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Atividades de militÃ¢ncia e mobilizaÃ§Ã£o de rua" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi5)
 
 desp4$publi7 <- 
@@ -146,7 +146,7 @@ desp4$publi7 <-
          desp4$SUM_TIPO_DESPESA,desp4$publi6)
 
 desp4$publi8 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Publicidade por carros de som" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Publicidade por carros de som" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi7)
 
 desp4$publi9 <- 
@@ -154,39 +154,39 @@ desp4$publi9 <-
          desp4$SUM_TIPO_DESPESA,desp4$publi8)
 
 desp4$publi10 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Publicidade por adesivos" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Publicidade por adesivos" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi9)
 
 desp4$publi11 <- 
-  ifelse((desp4$TIPO_DESPESA == "Comícios" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "ComÃ­cios" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi10)
 
 desp4$publi12 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Comícios" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - ComÃ­cios" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi11)
 
 desp4$publi13 <- 
-  ifelse((desp4$TIPO_DESPESA == "Produção de programas de rádio, televisão ou vídeo" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "ProduÃ§Ã£o de programas de rÃ¡dio, televisÃ£o ou vÃ­deo" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi12)
 
 desp4$publi14 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Produção de programas de rádio, televisão ou vídeo" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - ProduÃ§Ã£o de programas de rÃ¡dio, televisÃ£o ou vÃ­deo" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi13)
 
 desp4$publi15 <- 
-  ifelse((desp4$TIPO_DESPESA == "Eventos de promoção da candidatura" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Eventos de promoÃ§Ã£o da candidatura" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi14)
 
 desp4$publi16 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Eventos de promoção da candidatura" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Eventos de promoÃ§Ã£o da candidatura" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi15)
 
 desp4$publi17 <- 
-  ifelse((desp4$TIPO_DESPESA == "Criação e inclusão de páginas na internet" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "CriaÃ§Ã£o e inclusÃ£o de pÃ¡ginas na internet" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi16)
 
 desp4$publi18 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Criação e inclusão de páginas na internet" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - CriaÃ§Ã£o e inclusÃ£o de pÃ¡ginas na internet" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi17)
 
 desp4$publi19 <- 
@@ -194,7 +194,7 @@ desp4$publi19 <-
          desp4$SUM_TIPO_DESPESA,desp4$publi18)
 
 desp4$publi19 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Publicidade por jornais e revistas" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Publicidade por jornais e revistas" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi18)
 
 names(desp4)[13] <- "DESPESAS_PUBLICIDADE"
@@ -206,7 +206,7 @@ desp4$publi20 <-
          desp4$SUM_TIPO_DESPESA,desp4$DESPESAS_PUBLICIDADE)
 
 desp4$publi20 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Publicidade por placas, estandartes e faixas" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Publicidade por placas, estandartes e faixas" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi20)
 
 desp4$publi21 <- 
@@ -214,7 +214,7 @@ desp4$publi21 <-
          desp4$SUM_TIPO_DESPESA,desp4$DESPESAS_PUBLICIDADE)
 
 desp4$publi22 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Publicidade por Telemarketing" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Publicidade por Telemarketing" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$publi21)
 
 desp4$DESPESAS_PUBLICIDADE <- NULL
@@ -224,11 +224,11 @@ names(desp4)[25] <- "DESPESAS_PUBLICIDADE"
 #----------------- despesas_doacoe_outros_cand_comi_part----------------------------------------
 
 desp4$DESPESAS_DOACOES_OUTROS_CAND_COMI_PART <- 
-  ifelse((desp4$TIPO_DESPESA == "Doações financeiras a outros candidatos/comitês financeiros/partido" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "DoaÃ§Ãµes financeiras a outros candidatos/comitÃªs financeiros/partido" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,NA)
 
 desp4$DESPESAS_DOACOES_OUTROS_CAND_COMI_PART1<- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Doações financeiras a outros candidatos/comitês financeiros/partido" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - DoaÃ§Ãµes financeiras a outros candidatos/comitÃªs financeiros/partido" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$DESPESAS_DOACOES_OUTROS_CAND_COMI_PART)
 
 desp4[12] <- NULL
@@ -242,7 +242,7 @@ desp4$pesqui1<-
          desp4$SUM_TIPO_DESPESA,NA)
 
 desp4$pesqui2<- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Pesquisas ou testes eleitorais" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Pesquisas ou testes eleitorais" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$pesqui1)
 
 names(desp4)[15] <- "DESPESAS_PESQUISAS_ELEITORAIS"
@@ -257,7 +257,7 @@ desp4$pessoal1<-
          desp4$SUM_TIPO_DESPESA,NA)
 
 desp4$pessoal2<- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Despesas com pessoal" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Despesas com pessoal" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$pessoal1)
 
 names(desp4)[16] <- "DESPESAS_COM_PESSOAL"
@@ -281,11 +281,11 @@ desp4[16] <- NULL
 #------------------despesas_comite-------------------------------
 
 desp4$com1<- 
-  ifelse((desp4$TIPO_DESPESA == "Alimentação" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "AlimentaÃ§Ã£o" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,NA)
 
 desp4$com2<- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Alimentação" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - AlimentaÃ§Ã£o" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA, desp4$com1)
 
 desp4$com3<- 
@@ -293,15 +293,15 @@ desp4$com3<-
          desp4$SUM_TIPO_DESPESA,desp4$com2)
 
 desp4$com4<- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Materiais de expediente" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Materiais de expediente" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$com3)
 
 desp4$com5<- 
-  ifelse((desp4$TIPO_DESPESA == "Água" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Ãgua" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$com4)
 
 desp4$com6<- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Água" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Ãgua" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$com5)
 
 desp4$com7<- 
@@ -309,15 +309,15 @@ desp4$com7<-
          desp4$SUM_TIPO_DESPESA,desp4$com6)
 
 desp4$com7<- 
-  ifelse((desp4$TIPO_DESPESA == "Baixas Estimáveis - Telefone" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixas EstimÃ¡veis - Telefone" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$com6)
 
 desp4$com8<- 
-  ifelse((desp4$TIPO_DESPESA == "Energia Elétrica" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Energia ElÃ©trica" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$com7)
 
 desp4$com9<- 
-  ifelse((desp4$TIPO_DESPESA == "Baixas Estimáveis - Energia Elétrica" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixas EstimÃ¡veis - Energia ElÃ©trica" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$com8)
 
 names(desp4)[25] <- "DESPESAS_COMITE"
@@ -326,23 +326,23 @@ desp4[16:23] <- NULL
 
 
 
-tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "LocaÃ§Ã£o/cessÃ£o de bens imÃ³veis"] <- "despesas_comite"
-tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Baixa de Estimaveis - LocaÃ§Ã£o/cessÃ£o de bens imÃ³veis"] <- "despesas_comite"
+tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "LocaÃƒÂ§ÃƒÂ£o/cessÃƒÂ£o de bens imÃƒÂ³veis"] <- "despesas_comite"
+tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Baixa de Estimaveis - LocaÃƒÂ§ÃƒÂ£o/cessÃƒÂ£o de bens imÃƒÂ³veis"] <- "despesas_comite"
 
 
-tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "LocaÃ§Ã£o/cessÃ£o de bens mÃ³veis (exceto veÃ???culos)"] <- "despesas_comite"
-tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Baixa de Estimaveis - LocaÃ§Ã£o/cessÃ£o de bens mÃ³veis (exceto veÃ???culos)"] <- "despesas_comite"
+tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "LocaÃƒÂ§ÃƒÂ£o/cessÃƒÂ£o de bens mÃƒÂ³veis (exceto veÃƒ???culos)"] <- "despesas_comite"
+tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Baixa de Estimaveis - LocaÃƒÂ§ÃƒÂ£o/cessÃƒÂ£o de bens mÃƒÂ³veis (exceto veÃƒ???culos)"] <- "despesas_comite"
 
 
-tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "PrÃ©-instalaÃ§Ã£o fÃ???sica de comitÃª de campanha"] <- "despesas_comite"
-tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Baixa de Estimaveis - PrÃ©-instalaÃ§Ã£o fÃ???sica de comitÃª de campanha"] <- "despesas_comite"
+tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "PrÃƒÂ©-instalaÃƒÂ§ÃƒÂ£o fÃƒ???sica de comitÃƒÂª de campanha"] <- "despesas_comite"
+tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Baixa de Estimaveis - PrÃƒÂ©-instalaÃƒÂ§ÃƒÂ£o fÃƒ???sica de comitÃƒÂª de campanha"] <- "despesas_comite"
 
-tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "CorrespondÃªncias e despesas postais"] <- "despesas_comite"
-tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Baixa de Estimaveis - CorrespondÃªncias e despesas postais"] <- "despesas_comite"
+tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "CorrespondÃƒÂªncias e despesas postais"] <- "despesas_comite"
+tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Baixa de Estimaveis - CorrespondÃƒÂªncias e despesas postais"] <- "despesas_comite"
 
 
-tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "AquisiÃ§Ã£o/DoaÃ§Ã£o de bens mÃ³veis ou imÃ³veis"] <- "despesas_comite"
-tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Baixa de Estimaveis - AquisiÃ§Ã£o/DoaÃ§Ã£o de bens mÃ³veis ou imÃ³veis"] <- "despesas_comite"
+tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "AquisiÃƒÂ§ÃƒÂ£o/DoaÃƒÂ§ÃƒÂ£o de bens mÃƒÂ³veis ou imÃƒÂ³veis"] <- "despesas_comite"
+tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Baixa de Estimaveis - AquisiÃƒÂ§ÃƒÂ£o/DoaÃƒÂ§ÃƒÂ£o de bens mÃƒÂ³veis ou imÃƒÂ³veis"] <- "despesas_comite"
 
 
 tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Despesas com Hospedagem"] <- "despesas_comite"
@@ -350,18 +350,18 @@ tab11$TIPO_DESPESA[tab11$TIPO_DESPESA == "Baixa de Estimaveis - Despesas com Hos
 #------------------despesas_serv_terceiros--------------------------------
 
 desp4$serv1 <- 
-  ifelse((desp4$TIPO_DESPESA == "Serviços prestados por terceiros" & desp4$SUM_TIPO_DESPESA >= 0),desp4$SUM_TIPO_DESPESA,NA)
+  ifelse((desp4$TIPO_DESPESA == "ServiÃ§os prestados por terceiros" & desp4$SUM_TIPO_DESPESA >= 0),desp4$SUM_TIPO_DESPESA,NA)
 
 desp4$serv2 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixas de Estimáveis - Serviços prestados por terceiros" & desp4$SUM_TIPO_DESPESA >= 0)
+  ifelse((desp4$TIPO_DESPESA == "Baixas de EstimÃ¡veis - ServiÃ§os prestados por terceiros" & desp4$SUM_TIPO_DESPESA >= 0)
          ,desp4$SUM_TIPO_DESPESA,desp4$serv1)
 
 desp4$serv3 <- 
-  ifelse((desp4$TIPO_DESPESA == "Serviços próprios prestados por terceiros" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "ServiÃ§os prÃ³prios prestados por terceiros" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA, desp4$serv2)
 
 desp4$serv4 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixas de Estimáveis - Serviços próprios prestados por terceiros" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixas de EstimÃ¡veis - ServiÃ§os prÃ³prios prestados por terceiros" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA, desp4$serv3)
 
 names(desp4)[21] <- "SERV_TERCEIROS"
@@ -374,7 +374,7 @@ desp4$noesp <-
   ifelse((desp4$TIPO_DESPESA == "Diversas a especificar" & desp4$SUM_TIPO_DESPESA >= 0),desp4$SUM_TIPO_DESPESA,NA)
 
 desp4$noesp1 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Diversas a especificar" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Diversas a especificar" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$noesp)
 
 names(desp4)[19] <- "DESPESAS_NO_ESPECIFICADO"
@@ -383,11 +383,11 @@ desp4[19] <- NULL
 
 #------------------despesas_impos_encarg------------------------------
 desp4$impo <- 
-  ifelse((desp4$TIPO_DESPESA == "Encargos financeiros, taxas bancárias e/ou op. cartão de crédito" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Encargos financeiros, taxas bancÃ¡rias e/ou op. cartÃ£o de crÃ©dito" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,NA)
 
 desp4$impo1 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Encargos financeiros, taxas bancárias e/ou op. cartão de crédito" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Encargos financeiros, taxas bancÃ¡rias e/ou op. cartÃ£o de crÃ©dito" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$impo)
 
 
@@ -402,7 +402,7 @@ desp4$re <-
          desp4$SUM_TIPO_DESPESA,NA)
 
 desp4$re1 <- 
-  ifelse((desp4$TIPO_DESPESA == "Baixa de Estimáveis - Reembolsos de gastos realizados por eleitores" & desp4$SUM_TIPO_DESPESA >= 0),
+  ifelse((desp4$TIPO_DESPESA == "Baixa de EstimÃ¡veis - Reembolsos de gastos realizados por eleitores" & desp4$SUM_TIPO_DESPESA >= 0),
          desp4$SUM_TIPO_DESPESA,desp4$re)
 
 names(desp4)[22] <- "DESPESAS_REEMBOLSO_ELEITORES"
@@ -443,7 +443,7 @@ gastos2 <- gastos2[,!(names(gastos2)%in% excluir1)]
 
 head(gastos2)
 
-#Removendo variáveis que não vou utilizar
+#Removendo variÃ¡veis que nÃ£o vou utilizar
 
 gastos2$CODIGO_LEGENDA.y <- NULL
 
