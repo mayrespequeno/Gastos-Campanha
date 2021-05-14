@@ -1,0 +1,161 @@
+\documentclass[12pt]{article}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[{left=3cm,right=2cm,top=3cm,bottom=2cm}]{geometry}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float} %Me possibilita usar o Hear para a figura.
+\usepackage[dvipsnames]{xcolor}
+\pagestyle{empty}
+\begin{document}
+\tableofcontents
+\pagebreak	
+	\section{Informações aos Usuários}
+	Bancos de dados: Males da exclusão: O SANAR e o combate a doenças
+	negligenciadas em Pernambuco. \\
+	A base deste artigo esta disponibilizada em arquivo .csv no site {\color{red}\url{aaaaaaaaaaa}}. Os códigos e rótulos estão disponíveis neste documento. O artigo encontra-se publicado pela revista {\color{red}aaaaaaaaaa}.
+	\section{Informações Técnicas}
+	\begin{tabular}{p{3cm} p{10cm}} 
+		Banco 1     & tuberculose\_01\_18 \\
+		N           &  185 \\ 
+		Variáveis   &  72 \\
+		Extensão    & .csv \\  
+		Fonte       & Datasus {\color{blue}\url{http://datasus.saude.gov.br/}} \\  
+	\end{tabular} \\ \\ \\
+	\begin{tabular}{p{3cm} p{10cm}} 
+		Banco 2      & equistossomose\_00\_16 \\
+		N           &  185 \\ 
+		Variáveis   &  69 \\
+		Extensão    & .csv \\  
+		Fonte       & Datasus {\color{blue}\url{http://datasus.saude.gov.br/}} \\  
+	\end{tabular} \\ \\ \\
+	\begin{tabular}{p{3cm} p{10cm}} 
+		Banco 3     & controle\_sanar \\
+		N           &  185 \\ 
+		Variáveis   &  48 \\
+		Extensão    & .csv \\  
+		Fontes      & Atlas Brasil {\color{blue}\url{http://atlasbrasil.org.br/2013/}} \\
+		            & Datasus {\color{blue}\url{http://datasus.saude.gov.br/}} \\
+		            & VisData {\color{blue}\url{http://www.dados.gov.br/}} \\
+		\end{tabular} \\ 
+	\section{Banco 1 - Tuberculose}
+		{\bf tuberculose\_01\_18}
+		\subsection{CodM}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição} Código do Município \\
+		\subsection{Município}
+		{\bf Tipo:} Sequencia de Caracteres \\
+		{\bf Descrição:} Nome do Município 
+		\subsection{mortx}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Taxa de mortalidade por tuberculose a cada 100 mil habitantes, desde 2001 até 2018.\\
+		{\bf Subdivisões em variáveis:} mortx\_01,  mortx\_02, mortx\_03, mortx\_04, mortx\_05, mortx\_06, mortx\_07, mortx\_08, mortx\_09,
+		 mortx\_10, mortx\_11, mortx\_12, mortx\_13, mortx\_14, mortx\_15, mortx\_16, mortx\_17, mortx\_18. \\
+		\subsection{Incdtx}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Taxa de Incidência de Tuberculose a cada 100 mil habitantes, desde 2001 até 2018.\\
+		{\bf Subdivisões em variáveis:} Inctx01, Inctx02, Inctx03, Inctx04, Inctx05, Inctx06, Inctx07, 
+		Inctx08, Inctx09, Inctx10, Inctx11, Inctx12, Inctx13, Inctx14, Inctx15, Inctx16, Inctx17, Inctx18.
+		\subsection{propcura}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Proporção de casos de Tuberculose curados, desde 2001 até 2018.\\
+		{\bf Subdivisões em variáveis:} propcura01, propcura02, propcura03, propcura04, propcura05, propcura06, propcura07,
+		propcura08, propcura09, propcura10, propcura11, propcura12, propcura13, propcura14, propcura15, propcura16,
+		propcura17.
+		\subsection{propabandono}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Proporção de casos que abandonaram o tratamento, desde 2001 até 2018.\\
+		{\bf Subdivisões em variáveis:} propabandono01, propabandono02, propabandono03, propabandono04,propabandono05,
+		propabandono06, propabandono07, propabandono08, propabandono09, propabandono10. propabandono11, propabandono12,
+		propabandono13, propabandono14, propabandono15, propabandono16, propabandono17, propabandono18.
+		\section{Banco 2 - Equistossomose}
+		{\bf equistossomose\_00\_16}
+		\subsection{CodM}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição} Código do Município \\
+		\subsection{Município}
+		{\bf Tipo:} Sequencia de Caracteres \\
+		{\bf Descrição:} Nome do Município 
+		\subsection{mortx}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:}  Taxa de mortalidade por Equistossomose a cada 100 mil habitantes a cada 100 mil habitantes, desde 2000 até 2017.\\
+		{\bf Subdivisões em variáveis:} mortx\_01,  mortx\_02, mortx\_03, mortx\_04, mortx\_05, mortx\_06, mortx\_07, mortx\_08, mortx\_09,mortx\_10, mortx\_11, mortx\_12, mortx\_13, mortx\_14, mortx\_15, mortx\_16, mortx\_17, mortx\_18. \\
+		\subsection{incdtx}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Taxa de incidência de Equistossomose a cada 100 mil habitantes, desde 2000 até 2017.\\
+		{\bf Subdivisões em variáveis:} inctx01, inctx02, inctx03, inctx04, inctx05, inctx06, inctx07, inctx08,
+		inctx09, inctx10, inctx11, inctx12, inctx13, inctx14, inctx15, inctx16, inctx17. \\
+		\subsection{proptratados}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Proporção de casos de Equistossomose tratados, desde 2000 até 2016.\\
+		{\bf Subdivisões em variáveis:} proptratados01,  proptratados02,  proptratados03,  proptratados04,  proptratados05,
+		 proptratados06,  proptratados07,  proptratados08,  proptratados09,  proptratados10,  proptratados11,  proptratados12,
+		 proptratados13,  proptratados14, proptratados15, proptratados16.
+		\subsection{recprop}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Proporção de casos de Equistossomose tratados, desde 2001 até 2016.\\
+		{\bf Subdivisões em variáveis:} recprop01, recprop02, recprop03, recprop04, recprop05, recprop06, recprop07, recprop08, recprop09, recprop10, recprop11, recprop12, recprop13, recprop14, recprop15, recprop16.
+		\section{Banco 3 - Controles}
+		{\bf controle\_sanar}
+		\subsection{CodM}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição} Código do Município \\
+		\subsection{Município}
+		{\bf Tipo:} Sequencia de Caracteres \\
+		{\bf Descrição:} Nome do Município 
+		\subsection{sani}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Percentual da População com acesso a instalações sanitárias em 2000 e 2010. \\
+		{\bf Subdivisões em variáveis:} sani\_00, sani\_10.
+		\subsection{gini}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Índice de Gini em 2000 e 2010 \\
+		{\bf Subdivisões em variáveis:} gini\_00, gini\_10.
+		\subsection{agua}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Percentual da população em domicílios com água encanada em 2000 e 2010 \\
+		{\bf Subdivisões em variáveis:} agua\_00, agua\_10.
+		\subsection{lixo}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Percentual da população em domicílios com coleta de lixo em 2000 e 2010 \\
+		{\bf Subdivisões em variáveis:} lixo\_00, lixo\_10.
+		\subsection{pobreza}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Percentual da população abaixo da linha de pobreza em 2018. \\
+		{\bf Subdivisões em variáveis:} pobreza\_18
+		\subsection{pib}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Produto Interno Bruto, de 2000 até 2013. \\
+		{\bf Subdivisões em variáveis:} pib\_00, pib\_01, pib\_02, pib\_03, pib\_04, pib\_05, pib\_06, pib\_07, pib\_08,
+		pib\_09, pib\_10, pib\_11, pib\_12, pib\_13.
+		\subsection{bcg}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Percentual de cobertura BCG, de 2000 até 2018. \\
+		{\bf Subdivisões em variáveis:} bcg00, bcg01, bcg02, bcg03, bcg04, bcg05, bcg06, bcg07, bcg08, bcg09, bcg10, bcg11,
+		bcg12, bcg13, bcg14, bcg15, bcg16, bcg17, bcg18.
+		\subsection{renda}
+		{\bf Tipo:} Numérica \\
+		{\bf Descrição:} Renda média domiciliar per capita. \\
+		{\bf Subdivisões em variáveis:} renda\_00, renda\_10.
+	
+		
+	\section{Como citar esse banco de dados}
+	Para citar os dados e o artigo utilize sua versão de publicação na página da revista {\color{red}aaaaaaaaaa}
+	Para citar este codebook, indique a seguinte referência.
+	\\ \\
+	SILVA JÚNIOR, J. A.;FIGUEIREDO FILHO, D. B.; NASCIMENTO, Willber S.; PEQUENO, Mayres. (2020) Males da exclusão: O SANAR e o combate a doenças negligenciadas em Pernambuco. Grupo de Pesquisa Cidadania e Políticas Públicas (GCPP/UFAL). Disponível em: https://dataverse.org/ Acesso em: dia/mês/ano. 	
+	\section{Pesquisadores - Elaboração e Contato}
+		José Alexandre - UFAL \\
+		{\color{blue}\href{mailto}{jasjunior2007@yahoo.com.br}} 
+		\\ \\
+		Dalson Brito Figueiredo - UFPE \\
+		{\color{blue}\href{mailto}{dalsonbritto@yahoo.com.br}}
+		\\ \\
+		Willber Nascimento - UFPE \\
+		{\color{blue}\href{mailto}{dalsonbritto@yahoo.com.br}}
+		\\ \\
+		Mayres Pequeno - UFAL \\
+		{\color{blue}\href{mailto}{mayrespequeno@gmail.com.br}}
+
+\end{document}
