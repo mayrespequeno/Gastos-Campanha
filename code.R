@@ -36,7 +36,7 @@ library(plyr)
 library(mousetrap)
 library(Rmisc)
 
-#---------------------DiretÛrio e VisualizaÁ„o da Base----------------
+#---------------------Diret√≥rio e Visualiza√ß√£o da Base----------------
 load("C:/Users/mayre/Documents/Rscript/Meu dinheiro minhas regras/pref.RData")
 View(pref)
 getwd()
@@ -57,7 +57,7 @@ describe(pref$eleicao)
 
 
 
-#Tabela 1 - Descritivos dos gastos de campanha por eleiÁ„o
+#Tabela 1 - Descritivos dos gastos de campanha por elei√ß√£o
 
 tab1 <- pref %>% group_by(eleicao)%>%
   summarise(maximo = max(total_gastos_candidato),
@@ -70,7 +70,7 @@ write.csv2(tab1,"Descritivos dos gastos de campanha por eleicao.csv", row.names 
 
 str(pref$eleicao)
 
-# MÈdias para o data frame e output dos gr·ficos
+# M√©dias para o data frame e output dos gr√°ficos
 tab2 <- pref%>% 
   na.omit()%>%
   group_by(eleicao)%>%
@@ -79,17 +79,17 @@ tab2 <- pref%>%
             transportes = mean(gastos_transporte),
             encargos = mean(gastos_impos_encarg),
             nao_especificado = mean(gastos_no_especificado),
-            doaÁoes = mean(gastos_doacoe_outros_cand_comi_part),
+            doa√ßoes = mean(gastos_doacoe_outros_cand_comi_part),
             com_pessoal = mean(gastos_com_pessoal),
             reembolso = mean(gastos_reembolso_eleitores),
             multas = mean(gastos_multas_eleitorais),
             pesquisas_eleitorais = mean(gastos_pesquisas_eleitorais),
-            serviÁos_terceiros = mean(gastos_serv_terceiros))
+            servi√ßos_terceiros = mean(gastos_serv_terceiros))
 write.csv2(tab1,".csv",row.names = FALSE)
 
 #Modificando o data frame tab2
 
-#Transformando linhas em novas vari·veis para execuÁ„o prÛximos gr·ficos
+#Transformando linhas em novas vari√°veis para execu√ß√£o pr√≥ximos gr√°ficos
 tab3 <- as.data.frame(t(tab2))
 row.names(tab3)
 
@@ -99,23 +99,23 @@ tab3$categorias <- row.names(tab3)
 #Names para as colunas criadas
 names(tab3)[1:3] <- c("gastos_2008", "gastos_2012", "gastos_2016")
 
-#Excluindo a primeira linha que n„o ser· utilizada
+#Excluindo a primeira linha que n√£o ser√° utilizada
 tab3 <- tab3[-c(1),]
 
 #Renomeando categorias para plotar 
-tab3$categoriasnew<- c("Publicidade", "CÙmite", "Transportes",
-                          "Encargos","Nao Especificado","DoaÁoes",
-                          "Com Pessoal","Reembolsos ‡ Eleitores",
+tab3$categoriasnew<- c("Publicidade", "C√¥mite", "Transportes",
+                          "Encargos","Nao Especificado","Doa√ßoes",
+                          "Com Pessoal","Reembolsos √† Eleitores",
                           "Multas Eleitorais","Pesquisas Eleitorais",
-                          "ServiÁos de Terceiros")
+                          "Servi√ßos de Terceiros")
   
 
-#---------------------Plotando Gr·ficos #5----------------------------
+#---------------------Plotando Gr√°ficos #5----------------------------
 #Change axis text style
 black.bold.12.text <- element_text(
   face = "bold", color = "black", size = 10)
 
-#Gr·fico 1 - MÈdia por tipo de gastos em 2008
+#Gr√°fico 1 - M√©dia por tipo de gastos em 2008
 tab3 %>%
   ggplot(aes(y= gastos_2008, x= reorder(categoriasnew, gastos_2008)))+
   geom_bar(stat = "identity")+ 
@@ -128,7 +128,7 @@ tab3 %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   theme(axis.text.y =black.bold.12.text)
  
-#Gr·fico 2 - MÈdia por tipo de gastos em 2012 
+#Gr√°fico 2 - M√©dia por tipo de gastos em 2012 
 tab3 %>%
   ggplot(aes(y= gastos_2012, x= reorder(categoriasnew, gastos_2012)))+
   geom_bar(stat = "identity")+ 
@@ -141,7 +141,7 @@ tab3 %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   theme(axis.text.y =black.bold.12.text)
 
-#Gr·fico 3 - MÈdia por tipo de gastos em 2016
+#Gr√°fico 3 - M√©dia por tipo de gastos em 2016
 tab3 %>%
   ggplot(aes(y= gastos_2016, x= reorder(categoriasnew, gastos_2016, face = "bold")))+
   geom_bar(stat = "identity")+ 
@@ -157,19 +157,19 @@ tab3 %>%
 
 #---------------------Descritivos #6-----------------------
 
-#Transformando a vari·vel Votos tamanho. Do tipo Labelled double (formato SPSS) em para character, depois factor.
+#Transformando a vari√°vel Votos tamanho. Do tipo Labelled double (formato SPSS) em para character, depois factor.
 
 colnames(pref)
 pref$cod_votos_tamanho <- as.character(pref$votos_tamanho)
 str(pref$cod_votos_tamanho)
 
 pref$desc_votos_tamanho <- factor(pref$cod_votos_tamanho, levels = c("1", "2" , "3", "4", "5"),
-              labels = c("AtÈ 5 mil", "5.001 atÈ 10 mil", "10.001 atÈ 50 mil", "50.001 atÈ 200 mil",
+              labels = c("At√© 5 mil", "5.001 at√© 10 mil", "10.001 at√© 50 mil", "50.001 at√© 200 mil",
                          "Acima de 200 mil"))
 
 str(pref$desc_votos_tamanho)
 
-#Data frame com total de gastos por ano, de acordo com tamanho do municÌpio.
+#Data frame com total de gastos por ano, de acordo com tamanho do munic√≠pio.
 
 tab4 <- pref %>%
   group_by(eleicao,(desc_votos_tamanho)) %>% 
@@ -177,22 +177,22 @@ tab4 <- pref %>%
   names(tab4)[2] <- c("desc_votos_tamanho")
   names(tab4)[3] <- c("total_gastos_candidato")
   
-#MÈdia dos gastos com estratÈgia e estrutura por ano de EleiÁ„o
+#M√©dia dos gastos com estrat√©gia e estrutura por ano de Elei√ß√£o
 tab5 <- pref %>%
   na.omit() %>%
   group_by(eleicao) %>% 
-  summarise(mean(estratÈgia), mean(estrutura))
+  summarise(mean(estrat√©gia), mean(estrutura))
   names(tab5)[2:3] <- c("estrategia", "estrutura")
   write.csv2(tab4,".csv",row.names = FALSE)
  
-#Criando um novo data frame com as respectivas mÈdias anteriores, uma a cada linha 
+#Criando um novo data frame com as respectivas m√©dias anteriores, uma a cada linha 
 tab6 <- data.frame(eleicao = c(2008, 2008, 2012, 2012, 2016, 2016),
                      tipo = c("estrutura", "estrategia","estrutura", "estrategia", "estrutura", "estrategia"),
                      gastos = c(39346.92, 11649.34, 67053.84, 51083.23, 36445.14, 31363.03))
 
 tab6$eleicao <- as.character(tab6$eleicao)
 
-#Desnecess·riooooooo
+#Desnecess√°riooooooo
 tab7 <- tab6 %>%
  
 #Obtendo as respectivas somas de acordo com tipo de gastos
@@ -205,23 +205,23 @@ tab8 <- pref %>%
             multas = sum(gastos_multas_eleitorais),
             comite = sum(gastos_comite),
             pessoal = sum(gastos_com_pessoal),
-            doaÁ„o = sum(gastos_doacoe_outros_cand_comi_part),
+            doa√ß√£o = sum(gastos_doacoe_outros_cand_comi_part),
             nao_especificado = sum(gastos_no_especificado),
             impostos = sum(gastos_impos_encarg),
             reembolso = sum(gastos_reembolso_eleitores),
             terceiros = sum(gastos_serv_terceiros))
 
-#Modificando o data frame tab8, com o mesmo mÈtodo usado no primeiro data frame sumarizado
+#Modificando o data frame tab8, com o mesmo m√©todo usado no primeiro data frame sumarizado
 tab9 <-as.data.frame(t(tab8))
 tab9<-tab9[-c(1), ]
 row.names(tab9)
 tab9$categoriasnew <- c("Transportes", "Publicidade", "Pesquisas Eleitorais",
-                        "Multas Eleitorais", "ComitÍ", "Com Pessoal", "DoaÁıes", "N„o Especificado",
-                        "Impostos", "Reembolso", "ServiÁos de Terceiros")
+                        "Multas Eleitorais", "Comit√™", "Com Pessoal", "Doa√ß√µes", "N√£o Especificado",
+                        "Impostos", "Reembolso", "Servi√ßos de Terceiros")
 
-#---------------------Plotando Gr·ficos #6---------------
+#---------------------Plotando Gr√°ficos #6---------------
 
-#Gr·fico 4 - MÈdia dos gastos por n˙mero de eleitores e eleiÁ„o
+#Gr√°fico 4 - M√©dia dos gastos por n√∫mero de eleitores e elei√ß√£o
 tab4 %>%
   ggplot(aes(y = total_gastos_candidato, x = desc_votos_tamanho)) +
   geom_bar(stat = "identity", color = "black", fill = "gray")+
@@ -234,7 +234,7 @@ tab4 %>%
 
 
 
-#Gr·fico 5 - MÈdia dos gastos de Estrutura e EstratÈgia por tipo de gastos e eleiÁıes
+#Gr√°fico 5 - M√©dia dos gastos de Estrutura e Estrat√©gia por tipo de gastos e elei√ß√µes
 tab6 %>%
   ggplot(aes(eleicao,gastos)) +
   geom_bar(aes(fill = tipo ), position = "dodge", stat = "identity", color = "black") +
@@ -243,7 +243,7 @@ tab6 %>%
   scale_fill_brewer(palette = "Greys") +
   scale_y_continuous(labels = scales::number_format(big.mark = ".", decimal.mark = ","))
 
-#Gr·fico 10 - Soma da receita por tipo de gastos em 2008
+#Gr√°fico 10 - Soma da receita por tipo de gastos em 2008
 
 tab9 %>%
   ggplot(aes(y = c(V1), x =reorder(categoriasnew, V1)))+
@@ -257,7 +257,7 @@ tab9 %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   theme(axis.text.y = black.bold.12.text)
 
-# Gr·fico 11 - Soma da receita por tipo de gastos em 2012
+# Gr√°fico 11 - Soma da receita por tipo de gastos em 2012
 
 tab9 %>%
   ggplot(aes(y= c(V2), x =reorder(categoriasnew, V2)))+
@@ -273,7 +273,7 @@ tab9 %>%
   theme(axis.text.y = black.bold.12.text)
 
 
-#Gr·fico 12 - Soma da receita por tipo de gastos em 2016
+#Gr√°fico 12 - Soma da receita por tipo de gastos em 2016
 
 tab9 %>%
   ggplot(aes(y= c(V3), x =reorder(categoriasnew, V3)))+
@@ -291,18 +291,18 @@ tab9 %>%
 
 #---------------------Descritivos #7------------
 
-#Tabela 3 - Descritivos dos gastos de campanha com Dimens„o EstratÈgia
+#Tabela 3 - Descritivos dos gastos de campanha com Dimens√£o Estrat√©gia
 tab10 <-pref%>%
   group_by(eleicao)%>%
-    summarise(maximo = max(estratÈgia),
-              minimo = min(estratÈgia),
-              soma = sum(estratÈgia),
-              media = mean(estratÈgia),
-              dp = sd(estratÈgia),
+    summarise(maximo = max(estrat√©gia),
+              minimo = min(estrat√©gia),
+              soma = sum(estrat√©gia),
+              media = mean(estrat√©gia),
+              dp = sd(estrat√©gia),
               cv = ((dp/media)*100))
 write.csv2(tab10,"DescritivosEstrategia.csv",row.names = FALSE)
 
-#Tabela 2 - Descritivos dos gastos com a Dimens„o Estrutura
+#Tabela 2 - Descritivos dos gastos com a Dimens√£o Estrutura
 tab11 <-pref%>%
   na.omit() %>%
   group_by(eleicao)%>%
@@ -315,27 +315,27 @@ tab11 <-pref%>%
 write.csv2(tab10,"DescritivosEstrutura.csv",row.names = FALSE)
 
 
-#---------------------Plotando Gr·ficos #7-----------------
-#Gr·fico 6 - Gastos com as Dimensıes EstratÈgia e Estrutura por total de votos e eleiÁıes
+#---------------------Plotando Gr√°ficos #7-----------------
+#Gr√°fico 6 - Gastos com as Dimens√µes Estrat√©gia e Estrutura por total de votos e elei√ß√µes
 
-#Lembrar de colocar um filtro para tentar juntar as vari·veis. 
+#Lembrar de colocar um filtro para tentar juntar as vari√°veis. 
 
 pref <- na.omit(pref)
 head(pref)
     
 
 pref%>%na.omit%>%
-  ggplot(aes(x= log(estratÈgia), y = log(total_votos_cand)))+
+  ggplot(aes(x= log(estrat√©gia), y = log(total_votos_cand)))+
   geom_point()+
   theme(legend.position = 'none') +
   geom_smooth(method="lm", color ="blue")+
   scale_y_continuous(expand = c(0,0))+
-  labs(x = 'Log do gasto com EstratÈgia', y ='Log dos votos')+
+  labs(x = 'Log do gasto com Estrat√©gia', y ='Log dos votos')+
   facet_grid(cols = vars(eleicao)) +
   stat_cor(method = "pearson", label.x = 0, label.y = 14)
   
   
-annotate("text", x = 5, y = 14, label = paste(cor(pref$estratÈgia, pref$estrutura)))
+annotate("text", x = 5, y = 14, label = paste(cor(pref$estrat√©gia, pref$estrutura)))
 
 pref%>%na.omit%>%
   ggplot(aes(x= log(estrutura), y = log(total_votos_cand)))+
@@ -348,7 +348,7 @@ pref%>%na.omit%>%
   stat_cor(method = "pearson", label.x = 0, label.y = 14)
 
 
-#Gr·fico 7 - Gastos com EstratÈgia por total de votos, tamanho do municÌpio e eleiÁıes
+#Gr√°fico 7 - Gastos com Estrat√©gia por total de votos, tamanho do munic√≠pio e elei√ß√µes
 pref%>%na.omit%>%
   ggplot(aes(y= log(total_votos_cand), x= log(estrutura)))+
   geom_point()+ 
@@ -359,22 +359,22 @@ pref%>%na.omit%>%
   facet_grid(rows = vars(eleicao), cols = vars(desc_votos_tamanho))+
   stat_cor(method = "pearson", label.x = 0, label.y = 14)
   
-#Gr·fico 8 - Gastos com EstratÈgia por total de votos, tamanho do municÌpio e eleiÁıes
+#Gr√°fico 8 - Gastos com Estrat√©gia por total de votos, tamanho do munic√≠pio e elei√ß√µes
 pref%>%na.omit%>%
-  ggplot(aes(y= log(total_votos_cand), x= log(estratÈgia)))+
+  ggplot(aes(y= log(total_votos_cand), x= log(estrat√©gia)))+
   geom_point()+ 
   theme(legend.position = 'none') +
   theme_bw (12)+
   geom_smooth(method="lm", color ="blue")+
-  labs(y = 'Log dos votos', x = 'Log do gasto com EstratÈgia')+
+  labs(y = 'Log dos votos', x = 'Log do gasto com Estrat√©gia')+
   facet_grid(rows = vars(eleicao), cols = vars(desc_votos_tamanho)) +
   stat_cor(method = "pearson", label.x = 0, label.y = 14)+
   scale_alpha_continuous(expand = c(0,0))+
   scale_y_continuous(labels = scales::number_format(big.mark = ".", decimal.mark = ","))
 
-#Gr·fico 9 - MÈdia do tipo de gasto por status por eleiÁ„o (IC 95%)
+#Gr√°fico 9 - M√©dia do tipo de gasto por status por elei√ß√£o (IC 95%)
 
-#Outra vari·vel do sppss
+#Outra vari√°vel do sppss
 pref$cod_status <- as.character(pref$status)
 str(pref$cod_status)
 
@@ -382,12 +382,12 @@ pref$desc_status <- factor(pref$cod_status, levels = c("0", "1"),
                                   labels = c("Challenger", "Incumbent"))
 
 
-#Primeiro passo para o gr·fico "barra de erros"
+#Primeiro passo para o gr√°fico "barra de erros"
 tab12 <- pref %>%
   group_by(eleicao)%>%
-  select(estratÈgia, estrutura, eleicao, desc_status)
+  select(estrat√©gia, estrutura, eleicao, desc_status)
 
-#empilhando estratÈgia e estrutura
+#empilhando estrat√©gia e estrutura
 tab13<- tab12 %>%
   gather(estrategia, estrutura, - eleicao, - desc_status)
 
